@@ -1,9 +1,9 @@
 HELP.md
 target/
 .mvn/
-!**/src/main/**
-!**/src/test/**
 application.properties
+!**/src/main/java/**
+!**/src/test/**
 ### STS ###
 .apt_generated
 .classpath

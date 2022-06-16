@@ -8,6 +8,7 @@
     MyBatis3: 生成带条件的CRUD（奢华尊享版）
     -->
 <generatorConfiguration>
+    <!--defaultModelType="flat" 大数据字段，不分表 -->
     <context id="MySqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -16,7 +17,11 @@
 <!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
         <!-- 为生成的Java模型创建一个toString方法 -->
 <!--        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
-
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
@@ -31,13 +36,18 @@
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
-
+        <!--生成Model类存放位置-->
         <javaModelGenerator targetPackage="com.backend.backend.entity" targetProject="src/main/java"/>
-
+        <!-- 生成mapxml文件 -->
         <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources"/>
-
+        <!-- 生成mapxml对应client，也就是接口dao -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.backend.backend.mapper"
                              targetProject="src\main\java"/>
+        <!-- 逆向分析的表 -->
+        <!-- tableName设置为*号，可以对应所有表，此时不写domainObjectName -->
+        <!-- domainObjectName属性指定生成出来的实体类的类名 -->
+        <!--<table tableName="t_emp" domainObjectName="Emp"/>-->
+
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
