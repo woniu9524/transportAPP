@@ -1,8 +1,12 @@
-package com.backend.backend.mapper;
+package com.backend.backend.dao;
 
 import com.backend.backend.entity.User;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Mapper //告诉springboot这是mybatis的Mapper类
+@Repository //将USerDao交由spring容器管理
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 

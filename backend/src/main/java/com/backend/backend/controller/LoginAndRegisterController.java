@@ -1,32 +1,30 @@
 package com.backend.backend.controller;
 
+import com.backend.backend.common.api.CommonResult;
+import com.backend.backend.entity.User;
+import com.backend.backend.service.LoginAndRegisterService;
 import io.swagger.annotations.*;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(value = "LoginAndRegisterController 注册和登陆的接口")
 public class LoginAndRegisterController {
-    @RequestMapping(value = "/login",method = RequestMethod.POST )
-    @ResponseBody
-    @ApiOperation(value = "login方法",notes = "详细描述")
+    @Autowired
+    private LoginAndRegisterService loginAndRegisterService;
+    @RequestMapping(value = "/login",method = RequestMethod.GET )
+    @ApiOperation(value = "login-登陆")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "password",value = "密码 字符串类型",required = true),
             @ApiImplicitParam(name = "password",value = "密码 字符串类型",required = true)
     })
-    public String userLogin(
-            @ApiParam( name= "用户名", value="登陆时用的用户名",required = true) String username,
-            String password){
-        return "aaa";
+    public CommonResult<User> userLogin(String username, String password){
+        User user =loginAndRegisterService.userLogin();
+        return CommonResult.success(user);
     }
-    @ApiIgnore
-    @RequestMapping(value = "/login",method = RequestMethod.GET )
-    public String userLoginGet(){
-        return "aaa";
-    }
+
 
 
 }
