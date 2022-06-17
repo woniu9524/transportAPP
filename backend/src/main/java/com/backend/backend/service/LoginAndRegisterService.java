@@ -1,11 +1,13 @@
 package com.backend.backend.service;
 
-import com.backend.backend.entity.User;
-import org.springframework.stereotype.Service;
 
+import com.backend.backend.entity.User;
+import com.backend.backend.vo.LoginVo;
+
+import java.util.Map;
 
 public interface LoginAndRegisterService {
-    public User userLogin();
+    public Map<String,String> userLogin(LoginVo loginVo);
 
 
 }
