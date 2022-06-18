@@ -20,10 +20,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserMapper userMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String s){
         //查询用户信息
         User user = userMapper.selectByPrimaryKey(s);
-        //TODO 查询授权信息
+        //判断用户是否存在
+        if (Objects.isNull(user)) {
+            return null;
+        }
+        //查询授权信息
         UserDto userDto=new UserDto();
         userDto.setUserId(user.getUserId());
         userDto.setPassword(user.getPassword());

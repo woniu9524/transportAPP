@@ -31,6 +31,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        //当请求url为/login或者/register时，不进行拦截
+        if (httpServletRequest.getRequestURI().equals("/login") || httpServletRequest.getRequestURI().equals("/register")) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
         //获取token
         String token=httpServletRequest.getHeader("token");
         if (!StringUtils.hasText(token)){
@@ -44,7 +49,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = parseJWT("1234567", token);
             userid=claims.getSubject();
         }catch (Exception e){
-            e.printStackTrace();
             throw new RuntimeException("token非法");//这里JWT过期应该也会抛出
         }
         //从redis获取用户信息
@@ -60,9 +64,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if (Objects.isNull(loginUser)){
             throw new RuntimeException("用户未登录");
         }
-        //TODO 存入SecurityContextHolder
-
-        //获取权限分装到Authentication
+        //存入SecurityContextHolder
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(loginUser,null,loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         //放行

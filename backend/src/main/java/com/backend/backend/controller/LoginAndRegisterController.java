@@ -1,7 +1,6 @@
 package com.backend.backend.controller;
 
 import com.backend.backend.common.api.CommonResult;
-import com.backend.backend.entity.User;
 import com.backend.backend.service.LoginAndRegisterService;
 import com.backend.backend.vo.LoginVo;
 import io.swagger.annotations.*;
@@ -22,13 +21,21 @@ public class LoginAndRegisterController {
     private LoginAndRegisterService loginAndRegisterService;
     @RequestMapping(value = "/login",method = RequestMethod.POST )
     @ApiOperation(value = "login-登陆")
+    @ApiImplicitParam(name = "loginVo", value = "登陆信息", required = true, dataType = "LoginVo")
 
     public CommonResult<Map<String,String>> userLogin(@RequestBody LoginVo loginVo){
         Map<String,String> tokenMap =loginAndRegisterService.userLogin(loginVo);
         if (Objects.isNull(tokenMap)){
-            return CommonResult.failed("账号密码错误");
+            return CommonResult.failed("登陆失败");
         }
         return CommonResult.success(tokenMap);
+    }
+
+    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    @ApiOperation(value = "hello-测试")
+    @PreAuthorize("hasAnyAuthority('driver,owner,cargoOwner')")
+    public CommonResult<?> hello(){
+        return CommonResult.success("hello");
     }
 
 
