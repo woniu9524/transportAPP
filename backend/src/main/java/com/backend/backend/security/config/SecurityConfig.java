@@ -4,11 +4,13 @@ import com.backend.backend.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,13 +43,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
+                .authorizeRequests();
         http
-                //关闭csrf
-                .csrf().disable()
-                //不通过Session获取SecurityContext
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+                .and()
+                .csrf()
+                .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .cors()
+                .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS)
+                .permitAll()
                 //对于登录接口允许匿名访问
                 .antMatchers("/login").anonymous()
                 .antMatchers("/register").anonymous()
@@ -58,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/login","/register","/normal").permitAll()
                 //其他接口都要认证
                 .anyRequest().authenticated();
-        //配置JWT过滤器
+        /*//配置JWT过滤器
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //配置异常处理
         http.exceptionHandling()
@@ -67,8 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //权限不足处理
                 .accessDeniedHandler(accessDeniedHandler);
         //允许跨域
-        http.cors();
+        http.cors();*/
     }
+
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {

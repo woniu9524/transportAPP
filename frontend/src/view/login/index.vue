@@ -4,7 +4,7 @@
         <van-form @submit="onSubmit">
             <van-cell-group inset>
                 <van-field
-                        v-model="username"
+                        v-model="userId"
                         name="用户名"
                         label="用户名"
                         placeholder="用户名"
@@ -30,12 +30,14 @@
 </template>
 
 <script>
+    import {addHello, addLogin} from "../../api/loginAndRegister";
+
     export default {
         name: "login",
         data() {
             return {
                 type: "hasLogin",
-                username: "",
+                userId: "",
                 password: "",
             }
         },
@@ -43,6 +45,13 @@
             toRegister(){
                 this.$router.push({path: '/register'})
             },
+            onSubmit(){
+
+                addLogin({"userId":this.userId,"password":this.password}).then(function (response) {
+                    var jsonObj = JSON.parse(JSON.stringify(response.data));
+                    console.log(jsonObj);
+                });
+            }
         }
     }
 </script>

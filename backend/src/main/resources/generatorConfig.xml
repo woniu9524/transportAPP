@@ -49,8 +49,13 @@
         <!--<table tableName="t_emp" domainObjectName="Emp"/>-->
 
         <!--生成全部表tableName设为%-->
-        <table tableName="%">
+<!--        <table tableName="%">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+        <!--生成指定表tableName设为user_info-->
+        <table tableName="user_info">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+
     </context>
 </generatorConfiguration>

@@ -10,7 +10,7 @@
             <van-form @submit="onSubmit">
                 <van-cell-group inset>
                     <van-field
-                            v-model="registerForm.username"
+                            v-model="registerForm.userId"
                             name="用户名"
                             label="用户名"
                             placeholder="用户名"
@@ -23,6 +23,57 @@
                             label="密码"
                             placeholder="密码"
                             :rules="[{ required: true, message: '请填写密码' }]"
+                    />
+                    <van-field
+                            v-model="registerForm.name"
+                            name="姓名"
+                            label="姓名"
+                            placeholder="姓名"
+                            :rules="[{ required: true, message: '请填写姓名' }]"
+                    />
+
+                    <!--TODO 选择性别-->
+                    <van-radio-group
+                            v-model="registerForm.gender"
+                            direction="horizontal">
+                        <van-radio name="男">男</van-radio>
+                        <van-radio name="女">女</van-radio>
+                    </van-radio-group>
+                    <!--选择身份-->
+                    <van-field
+                            v-model="type_value"
+                            is-link
+                            readonly
+                            label="身份"
+                            placeholder="选择身份"
+                            @click="showPicker = true"
+                    />
+                    <van-popup v-model:show="showPicker" round position="bottom">
+                        <van-picker
+                                :columns="type_columns"
+                                @cancel="showPicker = false"
+                                @confirm="onConfirm"
+                        />
+                    </van-popup>
+
+                    <van-field
+                            v-model="registerForm.phone"
+                            name="手机号码"
+                            label="手机号码"
+                            placeholder="手机号码"
+                            :rules="[{ required: true, message: '请填写手机号码' }]"
+                    />
+                    <van-field
+                            v-model="registerForm.email"
+                            name="邮箱"
+                            label="邮箱"
+                            placeholder="邮箱"
+                    />
+                    <van-field
+                            v-model="registerForm.address"
+                            name="居住地"
+                            label="居住地"
+                            placeholder="居住地"
                     />
                 </van-cell-group>
                 <div style="margin: 16px;">
@@ -41,10 +92,18 @@
         data(){
             return{
                 registerForm:{
-                    username:"",
+                    userId:"",
                     password:"",
-
-                }
+                    userType:"0",
+                    name:"",
+                    gender:"",
+                    phone:"",
+                    email:"",
+                    address:""
+                },
+                showPicker:false,
+                type_columns:["司机","车主","车主和司机","货主"],
+                type_value:"",
             }
         },
         methods:{
@@ -53,6 +112,11 @@
             },
             onClickLeft:function () {
                 history.back();
+            },
+            onConfirm:function(value, index){
+                this.registerForm.userType=index;
+                this.showPicker=false;
+                this.type_value=this.type_columns[index];
             }
         }
     }
