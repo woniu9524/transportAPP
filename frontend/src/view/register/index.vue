@@ -61,7 +61,7 @@
                             name="手机号码"
                             label="手机号码"
                             placeholder="手机号码"
-                            :rules="[{ required: true, message: '请填写手机号码' }]"
+                            :rules="[{ phone_pattern, message: '请输入正确内容' }]"
                     />
                     <van-field
                             v-model="registerForm.email"
@@ -87,6 +87,8 @@
 </template>
 
 <script>
+    import {addUser} from "../../api/loginAndRegister";
+    import Toast from 'vant/lib/toast';
     export default {
         name: "register",
         data(){
@@ -103,12 +105,34 @@
                 },
                 showPicker:false,
                 type_columns:["司机","车主","车主和司机","货主"],
-                type_value:"",
+                type_value:"",//角色类型的值
+                phone_pattern:'/^\d{15,17}$/',
             }
         },
         methods:{
             onSubmit:function () {
+                const that=this;
+                addUser(this.registerForm).then(function (res) {
+                    if (res.code===200){
+                        Toast({
+                            message: "注册成功",
+                            position: 'top',
+                        });
+                        //页面跳转
+                        that.goHome();
 
+                    }else {
+                        Toast({
+                            message: res.message,
+                            position: 'top',
+                        });
+                    }
+                })
+
+            },
+            //进入主页
+            goHome(val){
+                this.$router.push({path: '/mySpace'})
             },
             onClickLeft:function () {
                 history.back();

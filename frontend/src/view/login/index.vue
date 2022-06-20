@@ -30,8 +30,8 @@
 </template>
 
 <script>
-    import {addHello, addLogin} from "../../api/loginAndRegister";
-
+    import {addLogin,isLogin} from "../../api/loginAndRegister";
+    import Toast from 'vant/lib/toast';
     export default {
         name: "login",
         data() {
@@ -46,12 +46,39 @@
                 this.$router.push({path: '/register'})
             },
             onSubmit(){
-
-                addLogin({"userId":this.userId,"password":this.password}).then(function (response) {
-                    var jsonObj = JSON.parse(JSON.stringify(response.data));
-                    console.log(jsonObj);
+                const that=this;
+                addLogin({"userId":this.userId,"password":this.password}).then(function (res) {
+                    if (res.code===200){
+                        that.goHome(res.data.user_type);
+                    }else {
+                        Toast({
+                            message: res.message,
+                            position: 'top',
+                        });
+                    }
                 });
+            },
+            goHome(val) {
+                this.$router.push({path: '/mySpace'})
+            },
+            //判断是否登录
+            hasLogin(){
+                const that=this;
+                if (localStorage.getItem("token")){
+                    isLogin().then(function (res) {
+                        if (res.code===200){
+                            console.log(res.data.userType);
+                            that.$router.push({path: '/mySpace'})
+                        }else {
+                            localStorage.removeItem("token");
+                        }
+                    })
+                }
             }
+
+        },
+        mounted() {
+            this.hasLogin();
         }
     }
 </script>

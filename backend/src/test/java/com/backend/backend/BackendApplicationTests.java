@@ -36,7 +36,7 @@ class BackendApplicationTests {
     @Test
     void jwtUseTest(){
         // 生成jwt
-        String jwt = JwtUtil.createJWT("1234567", 10000, "admin"); // 10秒过期
+        String jwt = JwtUtil.createJWT("1234567", 10000,"admin"); // 10秒过期
         System.out.println(jwt); // 生成token
         // 解析jwt
         Claims claims = parseJWT("1234567", jwt);

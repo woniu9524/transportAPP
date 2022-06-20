@@ -9,16 +9,14 @@ export const useStore = defineStore('useStore', {
     id:"user",
     state: () => {
         return {
-            token: undefined,
+
         }
     },
     /**
      * 用来封装计算属性 有缓存功能  类似于computed
      */
     getters: {
-        getToken(){
-            return state.token;
-        }
+
     },
     /**
      * 编辑业务逻辑  类似于methods
@@ -28,5 +26,3 @@ export const useStore = defineStore('useStore', {
     }
 
 })
-
-
