@@ -46,18 +46,18 @@ public class UserServiceImpl implements UserService {
 
     //登陆
     @Override
-    public Map<String,String> userLogin(LoginVo loginVo) {
+    public CommonResult<?> userLogin(LoginVo loginVo) {
         //AuthenticationManager 进行用户认证
         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(loginVo.getUserId(),loginVo.getPassword());
         Authentication authentication=null;
         try {
             authentication=authenticationManager.authenticate(authenticationToken);
         }catch (Exception e){
-            return null;
+            return CommonResult.failed("登录失败");
         }
         //如果没通过给予提示
         if (Objects.isNull(authentication)){
-            return null;
+            return CommonResult.failed("登录失败");
         }
         //通过了，用userid生成一个jwt
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
@@ -68,16 +68,16 @@ public class UserServiceImpl implements UserService {
         tokenMap.put("user_type",loginUser.getUser().getUserType().get(0));
         //把完整信息存入redis userid为key
         redisUtils.set("login:"+userId,loginUser.getUser(),60*120);
-        return tokenMap;
+        return CommonResult.success(tokenMap);
     }
 
     @Override
-    public Map<String, String> userRegister(RegisterVo registerVo) {
+    public CommonResult<?> userRegister(RegisterVo registerVo) {
         Map<String,String> tokenMap=new HashMap<>();
         String userId = registerVo.getUserId();
         //查询是否已经存在
         if (userMapper.selectByPrimaryKey(userId)!=null){
-            return null;
+            return CommonResult.failed("注册失败-用户名已存在");
         }
         //将LoginVo里的属性赋值给user和user_info
         User user=new User();
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
         tokenMap.put("user_type",String.valueOf(user.getUserType()));
         //把完整信息存入redis userid为key
         redisUtils.set("login:"+userId,user,60*120);
-        return tokenMap;
+        return CommonResult.success(tokenMap);
     }
 
     //判断是否登陆

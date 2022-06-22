@@ -8,10 +8,10 @@ import com.backend.backend.vo.RegisterVo;
 import java.util.Map;
 
 public interface UserService {
-    public Map<String,String> userLogin(LoginVo loginVo);
+    public CommonResult<?> userLogin(LoginVo loginVo);
 
 
-    Map<String, String> userRegister(RegisterVo registerVo);
+    CommonResult<?> userRegister(RegisterVo registerVo);
 
     CommonResult<?> isLogin(String token);
 }

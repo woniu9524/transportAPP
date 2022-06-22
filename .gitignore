@@ -1,6 +1,11 @@
 HELP.md
 target/
 .mvn/
+conf/
+data/
+docker/
+logs/
+
 application.properties
 !**/src/main/java/**
 !**/src/test/**

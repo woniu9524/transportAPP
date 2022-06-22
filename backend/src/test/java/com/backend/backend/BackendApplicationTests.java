@@ -2,11 +2,9 @@ package com.backend.backend;
 
 import com.backend.backend.dto.UserDto;
 import com.backend.backend.entity.User;
-import com.backend.backend.security.LoginUser;
 import com.backend.backend.util.JwtUtil;
 import com.backend.backend.util.RedisUtils;
 import io.jsonwebtoken.Claims;
-import net.bytebuddy.dynamic.TypeResolutionStrategy;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +45,7 @@ class BackendApplicationTests {
 
     //redis测试
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private RedisUtils redisUtils;
     @Test
