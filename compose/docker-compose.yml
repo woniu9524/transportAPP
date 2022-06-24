@@ -9,7 +9,7 @@ services:
     volumes:
       - /app/transportService:/data
     environment:
-      - TZ=Asia/Shanghai
+      REDIS_HOST: redis
     networks:
       - transport_net
     depends_on:

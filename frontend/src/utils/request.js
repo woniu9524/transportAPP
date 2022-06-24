@@ -5,8 +5,8 @@ import Toast from 'vant/lib/toast';
 let baseURL = "";
 switch (process.env.NODE_ENV) {
     case "production":
-        // baseURL = "http://47.96.114.92:8080";
-        baseURL = "http://localhost:8080";
+        baseURL = "http://47.96.114.92:8080";
+        // baseURL = "http://localhost:8080";
         break;
     case "test":
         baseURL = "http://localhost:8080";

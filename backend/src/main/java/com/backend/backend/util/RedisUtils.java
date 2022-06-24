@@ -39,12 +39,12 @@ public class RedisUtils {
     /**
      * 写入数据
      */
-    public boolean set(final String key, Object value,int seconds) {
+    public boolean set(final String key, Object value,int millseconds) {
         if (!StringUtils.hasText(key)) {
             return false;
         }
         try {
-            redisTemplate.opsForValue().set(key, value,seconds, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key, value,millseconds, TimeUnit.MILLISECONDS);
             log.info("存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
