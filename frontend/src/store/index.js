@@ -9,7 +9,7 @@ export const useStore = defineStore('useStore', {
     id:"user",
     state: () => {
         return {
-
+            userId:"",
         }
     },
     /**

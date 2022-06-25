@@ -64,10 +64,11 @@ instance.interceptors.response.use(
         // if the custom code is not 200, it is judged as an error.
         if (res.code !== 200) {
             // 412: Token expired;
-            if (res.code === 412) {
-                // store.dispatch('user/userLogout');
-            }
-            return Promise.reject(res.message || 'Error');
+            // if (res.code === 412) {
+            //     // store.dispatch('user/userLogout');
+            // }
+            // return Promise.reject(res.message || 'Error');
+            return res;
         } else {
             //这个是登录时候会返回token，保存起来
             if (res.data.token){

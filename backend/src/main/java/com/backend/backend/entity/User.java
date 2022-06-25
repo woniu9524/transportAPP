@@ -1,14 +1,5 @@
 package com.backend.backend.entity;
 
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-@Data
-@ApiModel("用户")
 public class User {
     private String userId;
 
@@ -16,4 +7,27 @@ public class User {
 
     private Integer userType;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
 }

@@ -14,4 +14,8 @@ public interface UserService {
     CommonResult<?> userRegister(RegisterVo registerVo);
 
     CommonResult<?> isLogin(String token);
+
+    CommonResult<?> getUserInfo(String userId);
+
+    CommonResult<?> sendEmail(String userId, String email);
 }

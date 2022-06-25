@@ -30,6 +30,8 @@ public class RegisterVo {
     //居住地
     @ApiModelProperty("居住地")
     private String address;
+    //验证码
+    private String code;
 
 
 }

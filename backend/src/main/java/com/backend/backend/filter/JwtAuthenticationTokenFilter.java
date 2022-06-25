@@ -1,11 +1,11 @@
 package com.backend.backend.filter;
 
 import com.backend.backend.dto.UserDto;
-import com.backend.backend.entity.User;
 import com.backend.backend.security.LoginUser;
 import com.backend.backend.util.RedisUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,16 +18,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static com.backend.backend.util.JwtUtil.parseJWT;
 @Configuration
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private RedisTemplate redisTemplate;
 
-    @Autowired
-    private RedisUtils redisUtils;
+    @Value("${my.jwtPassword}")
+    private String jwtPassword;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -44,19 +43,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             return;
         }
         //解析token
-        String userid;
+        String userId;
+        List<String> userType;
         try {
-            Claims claims = parseJWT("1234567", token);
-            userid=claims.getSubject();
+            Claims claims = parseJWT(jwtPassword, token);
+            userId=claims.getSubject();
+            userType= (List<String>) claims.get("userType");
         }catch (Exception e){
             throw new RuntimeException("token非法");//这里JWT过期应该也会抛出
         }
-        //从redis获取用户信息
-        String redisKey="login:"+userid;
+
         LoginUser loginUser=null;
         try {
-            UserDto user=(UserDto)redisUtils.get(redisKey);
-            loginUser=new LoginUser(user);
+            UserDto userDto=new UserDto();
+            userDto.setUserId(userId);
+            userDto.setUserType(userType);
+            loginUser=new LoginUser(userDto);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -4,3 +4,4 @@ export const addLogin = (data) => request({ url: '/login', method: "post", data,
 //注册接口
 export const addUser = (data) => request({ url: '/register', method: "post", data, })
 export const isLogin = (data) => request({ url: '/isLogin', method: "get", data, })
+export const sendEmail = (data) => request({ url: '/sendEmail', method: "post", data, })

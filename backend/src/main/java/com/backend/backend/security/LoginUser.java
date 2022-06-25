@@ -1,8 +1,6 @@
 package com.backend.backend.security;
 
 import com.backend.backend.dto.UserDto;
-import com.backend.backend.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

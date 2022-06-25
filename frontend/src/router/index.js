@@ -3,7 +3,7 @@ import {createRouter, createWebHashHistory} from "vue-router";
 const routes = [
     {
         path: "/",
-        redirect: '/login'
+        redirect: '/mySpace',
     },
     {
         path: "/login",
@@ -20,6 +20,11 @@ const routes = [
         name: "mySpace",
         component: () => import("../view/mySpace/index.vue")
     },
+    {
+        path: "/updateInfo",
+        name: "updateInfo",
+        component:()=>import("../view/mySpace/updateInfo.vue")
+    }
 ]
 //创建路由实例
 const router=createRouter({

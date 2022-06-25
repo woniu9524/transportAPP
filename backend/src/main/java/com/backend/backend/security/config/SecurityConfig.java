@@ -61,11 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //对于登录接口允许匿名访问
                 .antMatchers("/login").anonymous()
                 .antMatchers("/register").anonymous()
+                .antMatchers("/sendEmail").anonymous()
                 //配置权限路径
                 .antMatchers("/driver/**").hasAuthority("driver")
                 .antMatchers("/owner/**").hasAuthority("owner")
                 .antMatchers("/cargoOwner/**").hasAuthority("cargoOwner")
-                .antMatchers("/","/login","/register","/normal").permitAll()
+                .antMatchers("/","/login","/register","/normal","/sendEmail").permitAll()
                 //其他接口都要认证
                 .anyRequest().authenticated();
         /*//配置JWT过滤器

@@ -7,7 +7,7 @@
                 @click-left="onClickLeft"
         />
         <div class="register-form">
-            <van-form @submit="onSubmit">
+            <van-form >
                 <van-cell-group inset>
                     <van-field
                             v-model="registerForm.userId"
@@ -67,7 +67,7 @@
                             v-model="registerForm.email"
                             name="邮箱"
                             label="邮箱"
-                            placeholder="邮箱"
+                            placeholder="邮箱(需要验证)"
                     />
                     <van-field
                             v-model="registerForm.address"
@@ -75,19 +75,37 @@
                             label="居住地"
                             placeholder="居住地"
                     />
+                    <van-field
+                            v-model="registerForm.code"
+                            name="验证码"
+                            label="验证码"
+                            placeholder="验证码"
+                    />
                 </van-cell-group>
-                <div style="margin: 16px;">
-                    <van-button round block type="primary" native-type="submit">
-                        注册
-                    </van-button>
-                </div>
             </van-form>
+            <div style="margin: 16px;">
+                <van-row justify="center">
+                    <van-col span="10" >
+                        <van-button round block type="primary" @click="sendCode">
+                            发送验证码
+                        </van-button>
+                    </van-col>
+                    <van-col span="2" >
+
+                    </van-col>
+                    <van-col span="10">
+                        <van-button round block type="primary" @click="onSubmit">
+                            注册
+                        </van-button>
+                    </van-col>
+                </van-row>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {addUser} from "../../api/loginAndRegister";
+    import {addUser, sendEmail} from "../../api/loginAndRegister";
     import Toast from 'vant/lib/toast';
     export default {
         name: "register",
@@ -101,7 +119,8 @@
                     gender:"",
                     phone:"",
                     email:"",
-                    address:""
+                    address:"",
+                    code:""
                 },
                 showPicker:false,
                 type_columns:["司机","车主","车主和司机","货主"],
@@ -129,6 +148,23 @@
                     }
                 })
 
+            },
+            //发送验证码
+            sendCode(){
+                sendEmail({userId:this.registerForm.userId,email:this.registerForm.email}).then(function (res) {
+                    if (res.code===200){
+                        Toast({
+                            message: res.data,
+                            position: 'top',
+                        });
+                    }else {
+                        console.log(res.message)
+                        Toast({
+                            message: res.message,
+                            position: 'top',
+                        });
+                    }
+                })
             },
             //进入主页
             goHome(val){

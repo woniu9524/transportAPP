@@ -6,7 +6,6 @@ data/
 docker/
 logs/
 
-application.properties
 !**/src/main/java/**
 !**/src/test/**
 ### STS ###
@@ -34,3 +33,4 @@ build/
 
 ### VS Code ###
 .vscode/
+backend/src/main/resources/application.properties
