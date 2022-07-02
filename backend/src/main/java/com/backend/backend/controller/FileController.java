@@ -3,6 +3,7 @@ package com.backend.backend.controller;
 import com.backend.backend.common.api.CommonResult;
 import com.backend.backend.service.FileService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
@@ -18,6 +19,7 @@ import java.util.List;
 import static com.backend.backend.util.JwtUtil.parseJWT;
 
 @RestController
+@Api(value = "FileController 文件上传的接口")
 public class FileController {
 
     //默认上传到的路径

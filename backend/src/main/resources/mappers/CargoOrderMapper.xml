@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.backend.dao.CargoOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.backend.backend.entity.CargoOrder" >
+    <id column="contract_id" property="contractId" jdbcType="VARCHAR" />
+    <result column="client_name" property="clientName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="receiving_company" property="receivingCompany" jdbcType="VARCHAR" />
+    <result column="receiving_address" property="receivingAddress" jdbcType="VARCHAR" />
+    <result column="payment_company" property="paymentCompany" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="cargo_list_id" property="cargoListId" jdbcType="VARCHAR" />
+    <result column="cargo_num" property="cargoNum" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cargo_order
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.backend.backend.entity.CargoOrder" >
+    insert into cargo_order (contract_id, client_name, start_time, 
+      receiving_company, receiving_address, payment_company, 
+      car_id, goods_name, cargo_list_id, 
+      cargo_num, price, remarks
+      )
+    values (#{contractId,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, 
+      #{receivingCompany,jdbcType=VARCHAR}, #{receivingAddress,jdbcType=VARCHAR}, #{paymentCompany,jdbcType=VARCHAR}, 
+      #{carId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{cargoListId,jdbcType=VARCHAR}, 
+      #{cargoNum,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.backend.backend.entity.CargoOrder" >
+    update cargo_order
+    set client_name = #{clientName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      receiving_company = #{receivingCompany,jdbcType=VARCHAR},
+      receiving_address = #{receivingAddress,jdbcType=VARCHAR},
+      payment_company = #{paymentCompany,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      cargo_list_id = #{cargoListId,jdbcType=VARCHAR},
+      cargo_num = #{cargoNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select contract_id, client_name, start_time, receiving_company, receiving_address, 
+    payment_company, car_id, goods_name, cargo_list_id, cargo_num, price, remarks
+    from cargo_order
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select contract_id, client_name, start_time, receiving_company, receiving_address, 
+    payment_company, car_id, goods_name, cargo_list_id, cargo_num, price, remarks
+    from cargo_order
+  </select>
+</mapper>

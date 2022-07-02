@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.backend.dao.CarAndDriverInfoViewMapper" >
+  <resultMap id="BaseResultMap" type="com.backend.backend.entity.CarAndDriverInfoView" >
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="support" property="support" jdbcType="INTEGER" />
+    <result column="opposition" property="opposition" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="car_size" property="carSize" jdbcType="VARCHAR" />
+    <result column="car_good" property="carGood" jdbcType="VARCHAR" />
+    <result column="car_weight" property="carWeight" jdbcType="VARCHAR" />
+    <result column="from" property="from" jdbcType="VARCHAR" />
+    <result column="to" property="to" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.backend.backend.entity.CarAndDriverInfoView" >
+    insert into car_and_driver_info_view (driver_id, car_id, support, 
+      opposition, name, photo, 
+      car_size, car_good, car_weight, 
+      from, to)
+    values (#{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{support,jdbcType=INTEGER}, 
+      #{opposition,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
+      #{carSize,jdbcType=VARCHAR}, #{carGood,jdbcType=VARCHAR}, #{carWeight,jdbcType=VARCHAR}, 
+      #{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select driver_id, car_id, support, opposition, name, photo, car_size, car_good, car_weight, 
+    `from`, `to`
+    from car_and_driver_info_view
+  </select>
+</mapper>

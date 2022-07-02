@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.backend.dao.CarInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.backend.backend.entity.CarInfo" >
+    <id column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="car_owner" property="carOwner" jdbcType="VARCHAR" />
+    <result column="car_driver" property="carDriver" jdbcType="VARCHAR" />
+    <result column="car_size" property="carSize" jdbcType="VARCHAR" />
+    <result column="car_good" property="carGood" jdbcType="VARCHAR" />
+    <result column="car_weight" property="carWeight" jdbcType="VARCHAR" />
+    <result column="from" property="from" jdbcType="VARCHAR" />
+    <result column="to" property="to" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from car_info
+    where car_id = #{carId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.backend.backend.entity.CarInfo" >
+    insert into car_info (car_id, car_owner, car_driver, 
+      car_size, car_good, car_weight, 
+      from, to)
+    values (#{carId,jdbcType=VARCHAR}, #{carOwner,jdbcType=VARCHAR}, #{carDriver,jdbcType=VARCHAR}, 
+      #{carSize,jdbcType=VARCHAR}, #{carGood,jdbcType=VARCHAR}, #{carWeight,jdbcType=VARCHAR}, 
+      #{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.backend.backend.entity.CarInfo" >
+    update car_info
+    set car_owner = #{carOwner,jdbcType=VARCHAR},
+      car_driver = #{carDriver,jdbcType=VARCHAR},
+      car_size = #{carSize,jdbcType=VARCHAR},
+      car_good = #{carGood,jdbcType=VARCHAR},
+      car_weight = #{carWeight,jdbcType=VARCHAR},
+      from = #{from,jdbcType=VARCHAR},
+      to = #{to,jdbcType=VARCHAR}
+    where car_id = #{carId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select car_id, car_owner, car_driver, car_size, car_good, car_weight, from, to
+    from car_info
+    where car_id = #{carId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select car_id, car_owner, car_driver, car_size, car_good, car_weight, from, to
+    from car_info
+  </select>
+</mapper>

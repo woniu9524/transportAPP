@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHashHistory,createWebHistory} from "vue-router";
 //创建路由规则
 const routes = [
     {
@@ -21,10 +21,32 @@ const routes = [
         component: () => import("../view/mySpace/index.vue")
     },
     {
+        path: "/service",
+        name: "Service",
+        component: () => import("../view/service/index.vue")
+    },
+    {
         path: "/updateInfo",
         name: "updateInfo",
         component:()=>import("../view/mySpace/updateInfo.vue")
+    },
+    {
+        path: "/cargoOwner",
+        name: "cargoOwner",
+        component:()=>import("../view/cargoOwner/index.vue"),
+    },
+    {
+        path: "/ClosingOrder",
+        name: "ClosingOrder",
+        component:()=>import("../components/cargoOwner/ClosingOrder.vue")
+    },
+    {
+        path: "/FillOrder",
+        name: "FillOrder",
+        component:()=>import("../components/cargoOwner/FillOrder.vue")
     }
+
+
 ]
 //创建路由实例
 const router=createRouter({
